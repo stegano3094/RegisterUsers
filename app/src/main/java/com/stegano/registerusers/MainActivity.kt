@@ -1,5 +1,6 @@
 package com.stegano.registerusers
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -27,8 +28,14 @@ class MainActivity : AppCompatActivity() {
         return super.onPrepareOptionsMenu(menu)
     }
 
-    // Menu가 선택되었을 때 호출
+    // Menu가 선택되었을 때 호출 (선택된 메뉴에 대해서 동작이 필요할 때 사용)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.add_user -> {
+                val intent = Intent(this, SaveUserActivity::class.java)
+                startActivity(intent)
+            }
+        }
         return super.onOptionsItemSelected(item)
     }
 }
