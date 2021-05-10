@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     // Menu가 선택되었을 때 호출 (선택된 메뉴에 대해서 동작이 필요할 때 사용)
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        when (item.itemId) {  // item의 id를 이용해서 메뉴를 구분할 수 있음
             R.id.add_user -> {
                 val intent = Intent(this, SaveUserActivity::class.java)
                 startActivity(intent)
