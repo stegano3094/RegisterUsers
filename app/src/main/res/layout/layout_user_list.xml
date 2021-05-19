@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/profile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="7dp"
+        app:srcCompat="@android:drawable/checkbox_off_background" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/profile"
+        android:layout_marginTop="7dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        android:text="No name" />
+
+    <TextView
+        android:id="@+id/tel_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/profile"
+        android:layout_below="@+id/name"
+        android:textSize="12sp"
+        android:text="No TelNum" />
+
+    <ImageButton
+        android:id="@+id/del_item"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:onClick="onClickDelete"
+        android:background="@android:drawable/checkbox_on_background" />
+
+</RelativeLayout>

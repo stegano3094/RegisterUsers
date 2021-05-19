@@ -38,6 +38,7 @@ class DBHandler_Anko(context: Context) : SQLiteOpenHelper(context, DB_Name, null
         info.put(UserTable.AGE, user.age)
         info.put(UserTable.PIC_PATH, user.pic_path)
 
+        // Anko의 use 함수 -> DB를 사용하는 동안 블록을 걸어주고 함수가 끝나면 close해준다.
         writableDatabase.use {
             writableDatabase.insert(UserTable.TABLE_NAME, null, info)
         }
@@ -52,6 +53,8 @@ class DBHandler_Anko(context: Context) : SQLiteOpenHelper(context, DB_Name, null
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
+        // Anko의 pair 함수 -> 인자 2개를 받아 String으로 변경해주는 역할을 함
+        // 여기서 쿼리문을 String으로 쓰지 않고 Pair 클래스를 사용해서 쿼리가 만들어지도록 함
         db?.createTable(UserTable.TABLE_NAME, true,
             Pair(UserTable.ID, INTEGER+PRIMARY_KEY),
             Pair(UserTable.NAME, TEXT),
