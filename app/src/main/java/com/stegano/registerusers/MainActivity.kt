@@ -5,15 +5,61 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ListView
 import androidx.appcompat.widget.Toolbar
+import com.stegano.registerusers.DB.DBHandler_Anko
 
 class MainActivity : AppCompatActivity() {
+    private var mAdapter: UserListAdapter? = null
+    public var mDBHandler: DBHandler_Anko = DBHandler_Anko(this)
+    companion object {
+        val REQUEST_ADD_USER = 1001
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)  // 액션바 대신 툴바로 선언
+        val newOne = mDBHandler.getUserAlLWithCursor()
+        if(newOne?.count != 0) {
+            mAdapter = UserListAdapter(this, newOne)
+            val listView = findViewById<ListView>(R.id.user_list)
+            listView.adapter = mAdapter
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode) {
+            REQUEST_ADD_USER -> {
+                val newOne = mDBHandler.getUserAlLWithCursor()
+
+                if(mAdapter == null) {
+                    mAdapter = UserListAdapter(applicationContext, newOne)
+                    val listView = findViewById<ListView>(R.id.user_list)
+                    listView.adapter = mAdapter
+                }
+                mAdapter?.changeCursor(newOne)
+                mAdapter?.notifyDataSetInvalidated()
+            }
+        }
+    }
+
+    fun onClickDelete(view: View) {
+        mDBHandler.deleteUser(view.tag as Long)
+        val newOne = mDBHandler.getUserAlLWithCursor()
+        mAdapter?.changeCursor(newOne)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        mAdapter?.cursor?.close()
+        mDBHandler.close()
     }
 
     // Menu를 만들 때 호출
@@ -33,7 +79,11 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {  // item의 id를 이용해서 메뉴를 구분할 수 있음
             R.id.add_user -> {
                 val intent = Intent(this, SaveUserActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, REQUEST_ADD_USER)
+            }
+            R.id.anko -> {
+//                val layout = Intent(this, AnkoDSLActivitiy::class.java)
+//                startActivity(layout)
             }
         }
         return super.onOptionsItemSelected(item)
